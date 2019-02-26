@@ -36,23 +36,16 @@
     "webpack-dev-server": "^2.9.4"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "classnames": "^2.2.5",
-    "image-webpack-loader": "^4.2.0",
+    "history": "^4.7.2",
     "immutable": "^3.8.2",
-    "inputmask": "^3.3.11",
-    "prop-types": "^15.6.1",
+    "localstoragedb": "^2.3.2",
     "react": "^16.3.1",
-    "react-day-picker": "^7.1.6",
     "react-dom": "^16.3.1",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
-    "react-router-hash-link": "^1.2.0",
-    "react-select": "^1.2.1",
-    "react-transition-group": "^1.2.1",
-    "redux": "^4.0.0",
-    "resolve-url-loader": "^2.3.0"
+    "redux": "^4.0.0"
   }
 }

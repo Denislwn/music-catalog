@@ -1,0 +1,16 @@
+.comment {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.commentInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttons {
+  margin-left: 20px;
+  cursor: pointer;
+}

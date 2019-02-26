@@ -1,11 +1,9 @@
 import {combineReducers} from 'redux';
 
-import auth from './auth';
-import user from './user';
-import words from './words';
+import { sings } from './sings';
+import { comments } from './comments';
 
-export default combineReducers({
-    auth,
-    user,
-    words
+export const reducer = combineReducers({
+    sings,
+    comments,
 });
