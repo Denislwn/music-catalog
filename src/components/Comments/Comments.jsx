@@ -17,8 +17,6 @@ class CommentsCmp extends React.Component {
     render() {
         const { comments } = this.props;
 
-        console.log(comments);
-
         return (
             <div style={{padding: '20px'}}>
                 <input

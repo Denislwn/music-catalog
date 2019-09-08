@@ -12,9 +12,8 @@ const extractCSS = new ExtractTextPlugin({
     filename: 'css/[name].[hash:6].css',
     allChunks: true
 });
-export const port = 8888;
+export const port = 8889;
 export const host = '127.0.0.1';
-import packageJSON from './package.json';
 
 
 const plugins = [

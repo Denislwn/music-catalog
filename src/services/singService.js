@@ -23,12 +23,19 @@ export class SingService {
             newSingData.author,
             newSingData.description,
             newSingData.album,
+            newSingData.ID,
         );
 
         return singGateway.editSing(newSingData.ID);
     };
 
     static deleteSing = (singId) => {
-        return SingGateway.deleteSing(singId);
+        return new SingGateway(
+            null,
+            null,
+            null,
+            null,
+            singId,
+        ).deleteSing();
     }
 }

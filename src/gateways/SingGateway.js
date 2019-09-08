@@ -3,11 +3,12 @@ import { dataBase } from "../components/Root";
 import {SingFinder} from "../finders/SingFinders";
 
 export class SingGateway {
-    constructor(name, author, description, album) {
+    constructor(name, author, description, album, id) {
         this.name = name;
         this.author = author;
         this.description = description;
         this.album = album;
+        this.id = id;
     }
 
     addNewSing() {
@@ -22,8 +23,8 @@ export class SingGateway {
         return SingFinder.getSing( { query: { ID: newSingId }})[0];
     }
 
-    editSing(singID) {
-        const result = dataBase.update(SINGS_TABLE, {ID: singID}, (row) => {
+    editSing() {
+        const result = dataBase.update(SINGS_TABLE, {ID: this.id}, (row) => {
             row.name = this.name;
             row.author = this.author;
             row.description = this.description;
@@ -35,12 +36,12 @@ export class SingGateway {
         dataBase.commit();
 
         if (result) {
-            return SingFinder.getSing( { query: { ID: singID }})[0];
+            return SingFinder.getSing( { query: { ID: this.id }})[0];
         }
     }
 
-    static deleteSing(singId) {
-        const result = dataBase.deleteRows(SINGS_TABLE, {ID: singId});
+    deleteSing() {
+        const result = dataBase.deleteRows(SINGS_TABLE, {ID: this.id});
 
         dataBase.commit();
 
