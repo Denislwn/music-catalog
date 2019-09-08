@@ -18,7 +18,10 @@ export const registerUser = (newUserData) => {
 };
 
 export const authUser = (userData) => {
+    console.log(userData);
     const user = UserService.checkUserAuth(userData);
+
+    console.log(user);
 
     if (user) {
         history.push('/sings');

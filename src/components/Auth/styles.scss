@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.form {
+  width: 400px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 16px !important;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}

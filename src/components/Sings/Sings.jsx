@@ -4,13 +4,13 @@ import { connect } from 'react-redux'
 import * as styles from './styles.scss'
 
 import { getAllSings, addNewSing, editSing, deleteSing } from "../../AC/sings";
-import {AddNewSing} from "./AddNewSing/AddNewSing";
-import {EditSing} from "./EditSing/EditSing";
+import {NewSingModal} from "./NewSingModal/NewSingModal";
+import {EditSingModal} from "./EditSingModal/EditSingModal";
 
 class SingsCmp extends React.Component {
     state = {
-      isNewSingMode: false,
-      editId: null,
+        openNewSingModal: false,
+        editSing: null,
     };
 
     componentDidMount() {
@@ -19,7 +19,6 @@ class SingsCmp extends React.Component {
 
     render() {
         const { sings } = this.props;
-        const { isNewSingMode } = this.state;
 
         if (!sings.length) {
             return null;
@@ -42,17 +41,6 @@ class SingsCmp extends React.Component {
                     <tbody>
                     {
                         sings.map((sing, index) => {
-                            if (this.state.editId === sing.ID) {
-                                return (
-                                    <EditSing
-                                        key={sing.ID}
-                                        sing={sing}
-                                        index={index}
-                                        editSing={this.props.editSing}
-                                        reset={() => this.setState({ editId: null })}
-                                    />
-                                )
-                            }
                             return (
                                 <tr key={sing.ID}>
                                     <td>{index+1}</td>
@@ -61,7 +49,7 @@ class SingsCmp extends React.Component {
                                     <td>{sing.album}</td>
                                     <td>{sing.description}</td>
                                     <td onClick={() => this.setState({
-                                        editId: sing.ID,
+                                        editSing: sing,
                                     })} style={{cursor: 'pointer'}} >Ред.</td>
                                     <td onClick={() => this.props.deleteSing(sing.ID)}
                                         style={{cursor: 'pointer'}}>Удалить</td>
@@ -71,23 +59,27 @@ class SingsCmp extends React.Component {
                     }
                     </tbody>
                 </table>
-                    {
-                        isNewSingMode ?
-                            <AddNewSing
-                                addNewSing={this.props.addNewSing}
-                                changeAddNewSingMode={this.changeAddNewSingMode}
-                            /> :
-                            <div
-                                className={styles.addNewSingContainer}
-                                onClick={this.changeAddNewSingMode}
-                            >+
-                            </div>
-                    }
+                <div
+                    className={styles.addNewSingContainer}
+                    onClick={this.changeAddNewModalVisible}
+                >+
+                </div>
+                <NewSingModal
+                    visible={this.state.openNewSingModal}
+                    closeModal={this.changeAddNewModalVisible}
+                />
+                {this.state.editSing &&
+                    <EditSingModal
+                        visible
+                        closeModal={() => this.setState({ editSing: undefined })}
+                        sing={this.state.editSing}
+                    />
+                }
             </div>
         );
     }
 
-    changeAddNewSingMode = () => this.setState({ isNewSingMode: !this.state.isNewSingMode })
+    changeAddNewModalVisible = () => this.setState({ openNewSingModal: !this.state.openNewSingModal })
 }
 
 const mapStateToProps = (state) => ({
