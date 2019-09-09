@@ -1,4 +1,4 @@
-import {SAVE_USER_ID, EMPTY, IS_AUTH} from "../constans";
+import { SAVE_USER_ID, EMPTY, IS_AUTH_USER_ID, GET_ALL_SINGS, GET_ALL_USERS } from '../constans'
 import { UserService } from "../services/userService";
 import { history } from "../components/Root";
 
@@ -8,7 +8,7 @@ export const registerUser = (newUserData) => {
     if (newUser) {
         history.push('/sings');
 
-        localStorage.setItem(IS_AUTH, 'true');
+        localStorage.setItem(IS_AUTH_USER_ID, newUser.ID);
 
         return {
             type: SAVE_USER_ID,
@@ -18,15 +18,12 @@ export const registerUser = (newUserData) => {
 };
 
 export const authUser = (userData) => {
-    console.log(userData);
     const user = UserService.checkUserAuth(userData);
-
-    console.log(user);
 
     if (user) {
         history.push('/sings');
 
-        localStorage.setItem(IS_AUTH, 'true');
+        localStorage.setItem(IS_AUTH_USER_ID, user.ID);
 
         return {
             type: SAVE_USER_ID,
@@ -36,5 +33,12 @@ export const authUser = (userData) => {
 
     return {
         type: EMPTY,
+    }
+};
+
+export const getAllUsers = () => {
+    return {
+        type: GET_ALL_USERS,
+        data: UserService.getUsersList(),
     }
 };

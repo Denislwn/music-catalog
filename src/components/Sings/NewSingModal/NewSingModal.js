@@ -8,6 +8,7 @@ const { Option } = Select;
 
 class NewSingModalCmp extends React.Component {
     render() {
+        const { singers } = this.props
         const { getFieldDecorator } = this.props.form;
 
         return (
@@ -43,12 +44,13 @@ class NewSingModalCmp extends React.Component {
                             ]
                         })(
                             <Select>
-                                <Option value="jack">Jack</Option>
-                                <Option value="lucy">Lucy</Option>
-                                <Option value="disabled" disabled>
-                                    Disabled
-                                </Option>
-                                <Option value="Yiminghe">yiminghe</Option>
+                                {singers.map((singer) => {
+                                    return (
+                                      <Option key={singer.ID}>
+                                          {singer.name}
+                                      </Option>
+                                    )
+                                })}
                             </Select>
                         )}
                     </Form.Item>
@@ -90,7 +92,6 @@ class NewSingModalCmp extends React.Component {
                 album: values['album'],
             });
 
-
             this.props.closeModal();
         });
     };
@@ -104,4 +105,10 @@ const mapDispatchToProps = ({
     addNewSing,
 });
 
-export const NewSingModal = connect(null, mapDispatchToProps)(Form.create()(NewSingModalCmp));
+const mapStateToProps = (state) => {
+    return {
+        singers: state.singers.singers,
+    }
+}
+
+export const NewSingModal = connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewSingModalCmp));

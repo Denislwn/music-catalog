@@ -1,5 +1,6 @@
 import {GET_ALL_COMMENTS, EDIT_COMMENT, DELETE_COMMENT, ADD_NEW_COMMENT} from "../constans";
 import { CommentService } from "../services/commentService";
+import { notificationSuccess } from '../index'
 
 export const getAllComments = () => {
     return {
@@ -28,6 +29,8 @@ export const editComment = (commentId, comment) => {
 
 export const deleteComment = (commentId) => {
     CommentService.deleteComment(commentId);
+
+    notificationSuccess('Комментарий удален');
 
     return {
         type: DELETE_COMMENT,

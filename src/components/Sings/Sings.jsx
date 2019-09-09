@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
+import { Button, Table } from 'antd'
 
 import * as styles from './styles.scss'
 
@@ -20,54 +21,71 @@ class SingsCmp extends React.Component {
     render() {
         const { sings } = this.props;
 
-        if (!sings.length) {
-            return null;
-        }
+        const columns = [
+            {
+                title: 'Название',
+                dataIndex: 'name',
+                key: 'name',
+            },
+            {
+                title: 'Автор',
+                dataIndex: 'author',
+                key: 'author',
+            },
+            {
+                title: 'Название альбома',
+                dataIndex: 'album',
+                key: 'album',
+            },
+            {
+                title: 'Описание',
+                dataIndex: 'description',
+                key: 'description',
+            },
+            {
+                title: '',
+                key: 'tag',
+                dataIndex: 'tag',
+                render: (tag) => (
+                  <Button type='danger' onClick={(event) => {
+                      event.stopPropagation();
+
+                      this.props.deleteSing(tag)
+                  }}>
+                      Удалить
+                  </Button>
+                ),
+            },
+        ];
 
         return (
-            <div className={styles.singsContainer}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Название</th>
-                            <th>Автор</th>
-                            <th>Описание</th>
-                            <th>Альбом</th>
-                            <th/>
-                            <th/>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        sings.map((sing, index) => {
-                            return (
-                                <tr key={sing.ID}>
-                                    <td>{index+1}</td>
-                                    <td>{sing.name}</td>
-                                    <td>{sing.author}</td>
-                                    <td>{sing.album}</td>
-                                    <td>{sing.description}</td>
-                                    <td onClick={() => this.setState({
-                                        editSing: sing,
-                                    })} style={{cursor: 'pointer'}} >Ред.</td>
-                                    <td onClick={() => this.props.deleteSing(sing.ID)}
-                                        style={{cursor: 'pointer'}}>Удалить</td>
-                                </tr>
-                            );
-                        })
-                    }
-                    </tbody>
-                </table>
+            <div className={styles.container}>
+                {sings && sings.length > 0 ?
+                    <Table
+                      dataSource={sings}
+                      columns={columns}
+                      rowClassName={() => styles.row}
+                      onRow={(record) => {
+                          return {
+                              onClick: () => this.setState({ editSing: record })
+                          };
+                      }}
+                    /> :
+                    <div className={styles.noContent}>
+                        Нет Песен
+                    </div>
+                }
                 <div
                     className={styles.addNewSingContainer}
                     onClick={this.changeAddNewModalVisible}
                 >+
                 </div>
-                <NewSingModal
-                    visible={this.state.openNewSingModal}
-                    closeModal={this.changeAddNewModalVisible}
-                />
+                {this.state.openNewSingModal &&
+                    <NewSingModal
+                      visible
+                      closeModal={() => this.setState({ openNewSingModal: false })}
+                    />
+                }
                 {this.state.editSing &&
                     <EditSingModal
                         visible
@@ -82,9 +100,26 @@ class SingsCmp extends React.Component {
     changeAddNewModalVisible = () => this.setState({ openNewSingModal: !this.state.openNewSingModal })
 }
 
-const mapStateToProps = (state) => ({
-    sings: state.sings.sings,
-});
+const mapStateToProps = (state) => {
+    const { singers } = state.singers
+    const { sings } = state.sings
+
+
+    return {
+        sings: sings.map((sing) => {
+            const currentAuthor = singers.find((singer) => {
+                return String(singer.ID) === String(sing.author)
+            })
+
+            return {
+                ...sing,
+                author: (currentAuthor && currentAuthor.name) || 'Удален',
+                key: sing.ID,
+                tag: sing.ID,
+            }
+        }),
+    }
+};
 
 const mapDispatchToProps = ({
     getAllSings,

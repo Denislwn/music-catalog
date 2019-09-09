@@ -1,5 +1,6 @@
 import {GET_ALL_SINGS, ADD_NEW_SING, EDIT_SING, DELETE_SING} from "../constans";
 import { SingService } from "../services/singService";
+import { notificationSuccess } from '../index'
 
 export const getAllSings = () => {
   return {
@@ -28,6 +29,8 @@ export const editSing = (singId, sing) => {
 
 export const deleteSing = (singId) => {
     SingService.deleteSing(singId);
+
+    notificationSuccess('Песня удалена');
 
     return {
         type: DELETE_SING,

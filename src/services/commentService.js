@@ -9,7 +9,7 @@ export class CommentService {
     static addNewComment(newCommentData) {
         const commentGateway = new CommentGateway(
             newCommentData.text,
-            newCommentData.data,
+            newCommentData.creatorId,
         );
 
         return commentGateway.addNewComment();

@@ -5,10 +5,19 @@ import * as styles from "./styles.scss";
 
 import {Comments} from "../Comments/Comments";
 import {Sings} from "../Sings/Sings";
-import {IS_AUTH} from "../../constans";
+import {Singers} from "../Singers/Singers";
+import {IS_AUTH_USER_ID} from "../../constans";
+import { getAllSingers } from '../../AC/singers'
+import { connect } from 'react-redux'
+import { getAllUsers } from '../../AC/users'
+
+class AppCmp extends React.Component {
+    componentDidMount() {
+        this.props.getAllSingers();
+        this.props.getAllUsers();
+    }
 
 
-export class App extends React.Component {
     render() {
         return (
             <div>
@@ -21,6 +30,13 @@ export class App extends React.Component {
                         Песни
                     </NavLink>
                     <NavLink
+                      to='/singers'
+                      className={styles.menuItem}
+                      activeClassName={styles.activeMenuItem}
+                    >
+                        Исполнители
+                    </NavLink>
+                    <NavLink
                         to='/comments'
                         className={styles.menuItem}
                         activeClassName={styles.activeMenuItem}
@@ -31,7 +47,7 @@ export class App extends React.Component {
                         to='/auth'
                         className={styles.menuItem}
                         activeClassName={styles.activeMenuItem}
-                        onClick={() => localStorage.setItem(IS_AUTH, 'false')}
+                        onClick={() => localStorage.setItem(IS_AUTH_USER_ID, '')}
                     >
                         Выход
                     </NavLink>
@@ -39,8 +55,16 @@ export class App extends React.Component {
                 <Switch>
                     <Route path='/comments' component={Comments}/>
                     <Route path='/sings' component={Sings}/>
+                    <Route path='/singers' component={Singers}/>
                 </Switch>
             </div>
         )
     }
 }
+
+const mapDispatchToProps = ({
+    getAllSingers,
+    getAllUsers,
+});
+
+export const App = connect(null, mapDispatchToProps)(AppCmp)

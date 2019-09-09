@@ -3,15 +3,17 @@ import { dataBase } from "../components/Root";
 import {CommentFinder} from "../finders/CommentFinder";
 
 export class CommentGateway {
-    constructor(text) {
+    constructor(text, creatorId) {
         this.text = text;
         this.date = new Date();
+        this.creatorId = creatorId
     }
 
     addNewComment() {
         const newCommentId = dataBase.insert(COMMENTS_TABLE, {
             text: this.text,
             date: this.date,
+            creatorId: this.creatorId,
         });
         dataBase.commit();
 

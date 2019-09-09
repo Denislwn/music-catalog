@@ -1,11 +1,11 @@
-import {SAVE_USER_ID} from "../constans";
+import { GET_ALL_USERS, IS_AUTH_USER_ID, SAVE_USER_ID } from '../constans'
 
 const defaultCommentReducer = {
-    userId: [],
+    userId: localStorage.getItem(IS_AUTH_USER_ID),
     users: [],
 };
 
-export const comments = (state = defaultCommentReducer, action) => {
+export const users = (state = defaultCommentReducer, action) => {
     const {type} = action;
 
     switch (type) {
@@ -14,6 +14,11 @@ export const comments = (state = defaultCommentReducer, action) => {
                 ...state,
                 userId: action.data.ID,
             };
+        case GET_ALL_USERS:
+            return {
+                ...state,
+                users: action.data,
+            }
     }
 
     return state;

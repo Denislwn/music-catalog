@@ -1,8 +1,11 @@
 .comment {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 20px;
+  background-color: white;
+  margin-top: 16px;
+  border-radius: 4px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 
 .commentInfo {
@@ -13,4 +16,14 @@
 .buttons {
   margin-left: 20px;
   cursor: pointer;
+}
+
+.noContent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
 }
