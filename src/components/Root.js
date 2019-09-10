@@ -15,10 +15,16 @@ export const history = createBrowserHistory();
 export const dataBase = new localStorageDB("library", localStorage);
 
 if (dataBase.isNew()) {
-    dataBase.createTable(SINGS_TABLE, ["name", "author", "description", "album"]);
+    dataBase.createTable(SINGS_TABLE, ["name", "author", "description", "album", "creatorId"]);
     dataBase.createTable(COMMENTS_TABLE, ["text", "date", "creatorId"]);
     dataBase.createTable(USERS_TABLE, ["login", "password"]);
-    dataBase.createTable(SINGERS_TABLE, ["name", "country", "group"]);
+    dataBase.createTable(SINGERS_TABLE, ["name", "country", "group", "creatorId"]);
+
+    dataBase.insert(USERS_TABLE, {
+        login: 'admin',
+        password: 'admin',
+    });
+    dataBase.commit();
 
     dataBase.commit();
 }

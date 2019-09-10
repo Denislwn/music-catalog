@@ -12,6 +12,7 @@ export class SingService {
             newSingData.author,
             newSingData.description,
             newSingData.album,
+            newSingData.creatorId,
         );
 
         return singGateway.addNewSing();
@@ -23,6 +24,7 @@ export class SingService {
             newSingData.author,
             newSingData.description,
             newSingData.album,
+            newSingData.creatorId,
             newSingData.ID,
         );
 
@@ -35,7 +37,8 @@ export class SingService {
             null,
             null,
             null,
+            null,
             singId,
         ).deleteSing();
-    }
+    };
 }

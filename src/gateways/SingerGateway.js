@@ -4,10 +4,11 @@ import {SingerFinder} from "../finders/SingerFinder";
 import { SingFinder } from '../finders/SingFinders'
 
 export class SingerGateway {
-  constructor(name, country, group, id) {
+  constructor(name, country, group, creatorId, id) {
     this.name = name;
     this.country = country;
     this.group = group || '-';
+    this.creatorId = creatorId;
     this.id = id;
   }
 
@@ -16,6 +17,7 @@ export class SingerGateway {
       name: this.name,
       country: this.country,
       group: this.group,
+      creatorId: this.creatorId,
     });
     dataBase.commit();
 
@@ -27,6 +29,7 @@ export class SingerGateway {
       row.name = this.name;
       row.country = this.country;
       row.group = this.group;
+      row.creatorId = this.creatorId;
 
       return row;
     });

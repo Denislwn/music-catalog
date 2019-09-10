@@ -8,10 +8,12 @@ export class SingerService {
   }
 
   static addNewSinger(newSingerData) {
+    console.log('newSingerData.creatorId', newSingerData.creatorId);
     const singerGateway = new SingerGateway(
       newSingerData.name,
       newSingerData.country,
       newSingerData.group,
+      newSingerData.creatorId,
     );
 
     return singerGateway.addNewSinger();
@@ -22,6 +24,7 @@ export class SingerService {
       newSingerData.name,
       newSingerData.country,
       newSingerData.group,
+      newSingerData.creatorId,
       newSingerData.ID,
     );
 
@@ -29,11 +32,20 @@ export class SingerService {
   };
 
   static deleteSinger = (singerId) => {
+    new SingGateway(
+        null,
+        singerId,
+        null,
+        null,
+        null,
+    ).deleteAllSingsByAuthor();
+
     return new SingerGateway(
+      null,
       null,
       null,
       null,
       singerId,
     ).deleteSinger();
-  }
+  };
 }

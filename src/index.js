@@ -10,12 +10,12 @@ import Root from './components/Root';
 
 notification.config({
   placement: 'bottomRight',
-})
+});
 
 export const notificationSuccess = (message, description) => notification.success({
   message,
   description,
-})
+});
 
 
 ReactDOM.render(<Root/>, document.getElementById('root'));

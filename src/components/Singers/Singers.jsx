@@ -7,6 +7,9 @@ import * as styles from './styles.scss'
 import { getAllSingers, deleteSinger } from "../../AC/singers";
 import { NewSingerModal } from './NewSingerModal/NewSingerModal'
 import { EditSingerModal } from './EditSingerModal/EditSingerModal'
+import Popconfirm from "antd/es/popconfirm"
+
+const text = 'Вы уверены, что хотите удалить исполнителя? Все его песни будут удалены';
 
 class SingersCmp extends React.Component {
   state = {
@@ -18,8 +21,13 @@ class SingersCmp extends React.Component {
     this.props.getAllSingers();
   }
 
+  onConfirm = (event, tag) => {
+      event.stopPropagation();
+      this.props.deleteSinger(tag);
+  };
+
   render() {
-    const { singers } = this.props;
+    const { singers, isAdmin, userId } = this.props;
 
     const columns = [
       {
@@ -37,20 +45,34 @@ class SingersCmp extends React.Component {
         dataIndex: 'group',
         key: 'group',
       },
-      {
-        title: '',
-        key: 'tag',
-        dataIndex: 'tag',
-        render: (tag) => (
-          <Button type='danger' onClick={(event) => {
-            event.stopPropagation();
+        {
+            title: '',
+            key: 'tag',
+            dataIndex: 'tag',
+            render: (tag) => {
+                const creatorId = tag.split('@@@')[0];
+                const singId = tag.split('@@@')[1];
 
-            this.props.deleteSinger(tag)
-          }}>
-            Удалить
-          </Button>
-        ),
-      },
+                if (isAdmin || String(creatorId) === String(userId)) {
+                    return (
+                        <Popconfirm
+                            placement="top"
+                            title={text}
+                            onConfirm={(e) => this.onConfirm(e, singId)}
+                            onCancel={(event) => event.stopPropagation()}
+                            okText="Да"
+                            cancelText="Нет"
+                        >
+                            <Button type='danger' onClick={(event) => {
+                                event.stopPropagation();
+                            }}>
+                                Удалить
+                            </Button>
+                        </Popconfirm>
+                    )
+                }
+            }
+        },
     ];
 
     return (
@@ -97,14 +119,19 @@ class SingersCmp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const { users, userId } = state.users;
+  const currentUser = users.find((user) => String(user.ID) === String(state.users.userId));
+
   return {
     singers: state.singers.singers.map((singer) => {
       return {
         ...singer,
         key: singer.ID,
-        tag: singer.ID,
+        tag: singer.creatorId + '@@@' + singer.ID,
       }
     }),
+    userId,
+    isAdmin: currentUser ? currentUser.login === 'admin' : false,
   }
 };
 

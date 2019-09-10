@@ -32,7 +32,7 @@ export const singers = (state = defaultSingsReducer, action) => {
         case DELETE_SINGER:
             return {
                 ...state,
-                singers: state.singers.filter((singer) => singer.ID !== action.data)
+                singers: state.singers.filter((singer) => String(singer.ID) !== String(action.data))
             }
     }
 

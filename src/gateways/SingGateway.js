@@ -3,11 +3,12 @@ import { dataBase } from "../components/Root";
 import {SingFinder} from "../finders/SingFinders";
 
 export class SingGateway {
-    constructor(name, author, description, album, id) {
+    constructor(name, author, description, album, creatorId, id) {
         this.name = name;
         this.author = author;
         this.description = description;
         this.album = album;
+        this.creatorId = creatorId;
         this.id = id;
     }
 
@@ -17,6 +18,7 @@ export class SingGateway {
             author: this.author,
             description: this.description,
             album: this.album,
+            creatorId: this.creatorId,
         });
         dataBase.commit();
 
@@ -29,6 +31,7 @@ export class SingGateway {
             row.author = this.author;
             row.description = this.description;
             row.album = this.album;
+            row.creatorId = this.creatorId;
 
             return row;
         });
@@ -42,6 +45,14 @@ export class SingGateway {
 
     deleteSing() {
         const result = dataBase.deleteRows(SINGS_TABLE, {ID: this.id});
+
+        dataBase.commit();
+
+        return result
+    }
+
+    deleteAllSingsByAuthor() {
+        const result = dataBase.deleteRows(SINGS_TABLE, {author: String(this.author)});
 
         dataBase.commit();
 

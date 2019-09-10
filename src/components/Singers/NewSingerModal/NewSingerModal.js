@@ -71,6 +71,7 @@ class NewSingerModalCmp extends React.Component {
                 name: values['name'],
                 country: values['country'],
                 group: values['group'],
+                creatorId: this.props.userId,
             });
 
 
@@ -83,8 +84,14 @@ class NewSingerModalCmp extends React.Component {
     };
 }
 
+const mapStateToProps = (state) => {
+    return {
+        userId: state.users.userId,
+    }
+};
+
 const mapDispatchToProps = ({
     addNewSinger,
 });
 
-export const NewSingerModal = connect(null, mapDispatchToProps)(Form.create()(NewSingerModalCmp));
+export const NewSingerModal = connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewSingerModalCmp));

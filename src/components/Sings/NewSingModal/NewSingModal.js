@@ -8,7 +8,7 @@ const { Option } = Select;
 
 class NewSingModalCmp extends React.Component {
     render() {
-        const { singers } = this.props
+        const { singers } = this.props;
         const { getFieldDecorator } = this.props.form;
 
         return (
@@ -88,8 +88,9 @@ class NewSingModalCmp extends React.Component {
             this.props.addNewSing({
                 name: values['name'],
                 author: values['author'],
-                description: values['description'],
-                album: values['album'],
+                description: values['description'] || '-',
+                album: values['album'] || '-',
+                creatorId: this.props.userId,
             });
 
             this.props.closeModal();
@@ -101,14 +102,15 @@ class NewSingModalCmp extends React.Component {
     };
 }
 
+const mapStateToProps = (state) => {
+    return {
+        userId: state.users.userId,
+        singers: state.singers.singers,
+    }
+};
+
 const mapDispatchToProps = ({
     addNewSing,
 });
-
-const mapStateToProps = (state) => {
-    return {
-        singers: state.singers.singers,
-    }
-}
 
 export const NewSingModal = connect(mapStateToProps, mapDispatchToProps)(Form.create()(NewSingModalCmp));
